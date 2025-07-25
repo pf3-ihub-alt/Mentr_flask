@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Manager Sign Up</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        nav {
+            background-color: #333;
+            padding: 10px;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 40px auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        fieldset {
+            border: none;
+            margin-bottom: 20px;
+        }
+
+        fieldset legend {
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const verticalOptions = [
+                "Smart City / Manufacturing",
+                "Health Care",
+                "Agriculture and Food Technology",
+                "Aerospace and Defence",
+                "Automobile",
+                "Retail [FMCGJ] Real Estate Entertainment & Finance",
+                "Power / Energy",
+                "Other"
+            ];
+            const techOptions = [
+                "Robotics and Automation",
+                "AR/ VR/ Metaverse Gaming and Digital Twins",
+                "Data Science / AI / ML",
+                "Internet Of Things",
+                "Communication and Growth Tech",
+                "Additive Manufacturing (3D Printing)",
+                "Low Code Development"
+            ];
+            const statusOptions = [
+                "Ideation",
+                "MVP",
+                "Development",
+                "Product Launch"
+            ];
+
+            function populateSelect(selectElement, options) {
+                const placeholder = document.createElement('option');
+                placeholder.textContent = 'Select an option';
+                placeholder.value = '';
+                placeholder.disabled = true;
+                placeholder.selected = true;
+                selectElement.appendChild(placeholder);
+
+                options.forEach(option => {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = option;
+                    optionElement.textContent = option;
+                    selectElement.appendChild(optionElement);
+                });
+            }
+
+            function updateOptions(selectElements, selectedValues) {
+                selectElements.forEach(select => {
+                    const options = select.querySelectorAll('option');
+                    options.forEach(option => {
+                        if (selectedValues.includes(option.value)) {
+                            option.style.display = 'none';
+                        } else {
+                            option.style.display = 'block';
+                        }
+                    });
+                });
+            }
+
+            function handleSelectChange() {
+                const selectedVerticals = Array.from(document.querySelectorAll('select[name^="industry_verticals_"]'))
+                    .map(select => select.value)
+                    .filter(value => value);
+                const selectedTechnologies = Array.from(document.querySelectorAll('select[name^="technologies_"]'))
+                    .map(select => select.value)
+                    .filter(value => value);
+                const selectedStatuses = Array.from(document.querySelectorAll('select[name^="project_statuses_"]'))
+                    .map(select => select.value)
+                    .filter(value => value);
+
+                updateOptions(document.querySelectorAll('select[name^="industry_verticals_"]'), selectedVerticals);
+                updateOptions(document.querySelectorAll('select[name^="technologies_"]'), selectedTechnologies);
+                updateOptions(document.querySelectorAll('select[name^="project_statuses_"]'), selectedStatuses);
+            }
+
+            document.querySelectorAll('select').forEach(select => {
+                select.addEventListener('change', handleSelectChange);
+            });
+
+            // Populate dropdowns with options
+            document.querySelectorAll('select[name^="industry_verticals_"]').forEach(select => {
+                populateSelect(select, verticalOptions);
+            });
+
+            document.querySelectorAll('select[name^="technologies_"]').forEach(select => {
+                populateSelect(select, techOptions);
+            });
+
+            document.querySelectorAll('select[name^="project_statuses_"]').forEach(select => {
+                populateSelect(select, statusOptions);
+            });
+        });
+    </script>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <a href="/" style="color: white; text-decoration: none; font-size: 24px;">MyApp</a>
+        </div>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/login">Sign In</a></li>
+        </ul>
+    </nav>
+
+    <h1>Product Manager Sign Up</h1>
+    <form action="/signup" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="email">Email ID:</label>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br>
+
+        <label for="experience">Years of Experience:</label>
+        <input type="number" id="experience" name="experience" required><br>
+
+        <label for="performance_score">Performance Score:</label>
+        <input type="number" id="performance_score" name="performance_score" required><br>
+
+        <label for="active_projects">Number of Active Projects:</label>
+        <input type="number" id="active_projects" name="active_projects" required><br>
+
+        <label for="interest">Interest:</label>
+        <input type="text" id="interest" name="interest" required><br>
+
+        <fieldset>
+            <legend>Industry Verticals (Select and Assign Priority):</legend>
+            <label for="industry_vertical_1">Priority 1:</label>
+            <select id="industry_vertical_1" name="industry_verticals_1" required></select><br>
+
+            <label for="industry_vertical_2">Priority 2:</label>
+            <select id="industry_vertical_2" name="industry_verticals_2" required></select><br>
+
+            <label for="industry_vertical_3">Priority 3:</label>
+            <select id="industry_vertical_3" name="industry_verticals_3" required></select><br>
+
+            <label for="industry_vertical_4">Priority 4:</label>
+            <select id="industry_vertical_4" name="industry_verticals_4" required></select><br>
+
+            <label for="industry_vertical_5">Priority 5:</label>
+            <select id="industry_vertical_5" name="industry_verticals_5" required></select><br>
+
+            <label for="industry_vertical_6">Priority 6:</label>
+            <select id="industry_vertical_6" name="industry_verticals_6" required></select><br>
+
+            <label for="industry_vertical_7">Priority 7:</label>
+            <select id="industry_vertical_7" name="industry_verticals_7" required></select><br>
+
+            <label for="industry_vertical_8">Priority 8:</label>
+            <select id="industry_vertical_8" name="industry_verticals_8" required></select><br>
+        </fieldset>
+
+        <fieldset>
+            <legend>Technologies (Select and Assign Priority):</legend>
+            <label for="technology_1">Priority 1:</label>
+            <select id="technology_1" name="technologies_1" required></select><br>
+
+            <label for="technology_2">Priority 2:</label>
+            <select id="technology_2" name="technologies_2" required></select><br>
+
+            <label for="technology_3">Priority 3:</label>
+            <select id="technology_3" name="technologies_3" required></select><br>
+
+            <label for="technology_4">Priority 4:</label>
+            <select id="technology_4" name="technologies_4" required></select><br>
+
+            <label for="technology_5">Priority 5:</label>
+            <select id="technology_5" name="technologies_5" required></select><br>
+
+            <label for="technology_6">Priority 6:</label>
+            <select id="technology_6" name="technologies_6" required></select><br>
+
+            <label for="technology_7">Priority 7:</label>
+            <select id="technology_7" name="technologies_7" required></select><br>
+        </fieldset>
+
+        <fieldset>
+            <legend>Project Statuses (Select and Assign Priority):</legend>
+            <label for="status_1">Priority 1:</label>
+            <select id="status_1" name="project_statuses_1" required></select><br>
+
+            <label for="status_2">Priority 2:</label>
+            <select id="status_2" name="project_statuses_2" required></select><br>
+
+            <label for="status_3">Priority 3:</label>
+            <select id="status_3" name="project_statuses_3" required></select><br>
+
+            <label for="status_4">Priority 4:</label>
+            <select id="status_4" name="project_statuses_4" required></select><br>
+        </fieldset>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

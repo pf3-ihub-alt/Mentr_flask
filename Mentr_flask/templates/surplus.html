@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surplus Projects - {{ user.name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">PM Dashboard</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="bg-dark text-white p-3" style="min-width: 200px; height: 100vh;">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{ url_for('dashboard') }}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{ url_for('interested_startups_page') }}">Interested</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{ url_for('shortlisted_startups_page') }}">Shortlisted</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{ url_for('finalized_startups_page') }}">Finalized</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{ url_for('surplus') }}">Surplus</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#">Settings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{ url_for('logout') }}">Logout</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="container mt-5">
+            <h1 class="text-center">Surplus Projects</h1>
+
+            <!-- Check if there are surplus projects -->
+            {% if projects %}
+                <table class="table table-bordered table-striped mt-4">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Startup Name</th>
+                            <th>Problem Statement</th>
+                            <th>Tech Stack</th>
+                            <th>Industry Vertical</th>
+                            <th>Project Status</th>
+                            <th>Feedback</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Iterate through surplus projects -->
+                        {% for entry in projects %}
+                        <tr>
+                            <td>{{ entry.startup_details.startup_name or 'N/A' }}</td>
+                            <td>{{ entry.project.problem_statement or 'N/A' }}</td>
+                            <td>{{ entry.project.tech_stack or 'N/A' }}</td>
+                            <td>{{ entry.project.industry_vertical or 'N/A' }}</td>
+                            <td>{{ entry.project.project_status or 'N/A' }}</td>
+                            <td>{{ entry.project.Feedback or 'N/A' }}</td>
+                            <td>
+                                <button class="btn btn-primary view-more-btn" 
+                                    data-startup="{{ entry.startup_details.startup_name or 'N/A' }}" 
+                                    data-problem="{{ entry.project.problem_statement or 'N/A' }}" 
+                                    data-email="{{ entry.startup_details.email or 'N/A' }}" 
+                                    data-name="{{ entry.startup_details.name or 'N/A' }}" 
+                                    data-status="{{ entry.startup_details.current_status or 'N/A' }}" 
+                                    data-institution="{{ entry.startup_details.sns_institution or 'N/A' }}" 
+                                    data-team="{{ entry.startup_details.team_details or 'N/A' }}" 
+                                    data-industry="{{ entry.startup_details.industry_vertical or 'N/A' }}" 
+                                    data-tech="{{ entry.project.tech_stack or 'N/A' }}" 
+                                    data-pm="{{ entry.project.assigned_pm or 'N/A' }}" 
+                                    data-feedback="{{ entry.project.Feedback or 'N/A' }}" 
+                                    data-toggle="modal" data-target="#viewMoreModal">
+                                    View More
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="text-center">No surplus projects available at this time.</p>
+            {% endif %}
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="viewMoreModal" tabindex="-1" aria-labelledby="viewMoreLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="viewMoreLabel">Project Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Modal content will be dynamically filled by JavaScript -->
+                        <p><strong>Startup Name:</strong> <span id="modal-startup"></span></p>
+                        <p><strong>Problem Statement:</strong> <span id="modal-problem"></span></p>
+                        <p><strong>Email:</strong> <span id="modal-email"></span></p>
+                        <p><strong>Contact Name:</strong> <span id="modal-name"></span></p>
+                        <p><strong>Current Status:</strong> <span id="modal-status"></span></p>
+                        <p><strong>Institution:</strong> <span id="modal-institution"></span></p>
+                        <p><strong>Team Details:</strong> <span id="modal-team"></span></p>
+                        <p><strong>Industry Verticals:</strong> <span id="modal-industry"></span></p>
+                        <p><strong>Tech Stack:</strong> <span id="modal-tech"></span></p>
+                        <p><strong>Assigned PM:</strong> <span id="modal-pm"></span></p>
+                        <p><strong>Feedback:</strong> <span id="modal-feedback"></span></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Script to handle dynamic modal content -->
+    <script>
+        $(document).ready(function() {
+            $('.view-more-btn').on('click', function() {
+                var startup = $(this).data('startup');
+                var problem = $(this).data('problem');
+                var email = $(this).data('email');
+                var name = $(this).data('name');
+                var status = $(this).data('status');
+                var institution = $(this).data('institution');
+                var team = $(this).data('team');
+                var industry = $(this).data('industry');
+                var tech = $(this).data('tech');
+                var pm = $(this).data('pm');
+                var feedback = $(this).data('feedback');
+
+                $('#modal-startup').text(startup);
+                $('#modal-problem').text(problem);
+                $('#modal-email').text(email);
+                $('#modal-name').text(name);
+                $('#modal-status').text(status);
+                $('#modal-institution').text(institution);
+                $('#modal-team').text(team);
+                $('#modal-industry').text(industry);
+                $('#modal-tech').text(tech);
+                $('#modal-pm').text(pm);
+                $('#modal-feedback').text(feedback);
+            });
+        });
+    </script>
+</body>
+</html>

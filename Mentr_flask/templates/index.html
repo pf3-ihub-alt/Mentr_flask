@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Startup Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            padding: 10px;
+            background-color: #f4f4f4;
+        }
+        .header a {
+            margin-left: 15px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        .header a:hover {
+            text-decoration: underline;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-top: 10px;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="/signup">PM Signup</a>
+        <a href="/login">Login</a>
+    </div>
+    <div class="container">
+        <h1>Startup Details Form</h1>
+        <form action="/submit" method="POST">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required><br><br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br><br>
+
+            <label for="bmc_video_link">BMC Video Link:</label>
+            <input type="text" id="bmc_video_link" name="bmc_video_link"><br><br>
+
+            <label for="startup_name">Startup Name:</label>
+            <input type="text" id="startup_name" name="startup_name" required><br><br>
+
+            <label for="problem_statement">Problem Statement:</label>
+            <textarea id="problem_statement" name="problem_statement"></textarea><br><br>
+
+            <label for="description">Description:</label>
+            <textarea id="description" name="description"></textarea><br><br>
+
+            <label for="current_status">Current Status:</label>
+            <select id="current_status" name="current_status">
+                <option value="">Select Status</option>
+                <option value="Ideation">Ideation</option>
+                <option value="MVP">MVP</option>
+                <option value="Development">Development</option>
+                <option value="Product Launch">Product Launch</option>
+            </select><br><br>
+
+            <label for="sns_institution">SNS Institution:</label>
+            <input type="text" id="sns_institution" name="sns_institution"><br><br>
+
+            <label for="team_details">Team Details:</label>
+            <textarea id="team_details" name="team_details"></textarea><br><br>
+
+            <label for="industry_vertical">Industry Vertical:</label>
+            <select id="industry_vertical" name="industry_vertical">
+                <option value="Smart City / Manufacturing">Smart City / Manufacturing</option>
+                <option value="Health Care">Health Care</option>
+                <option value="Agriculture and Food Technology">Agriculture and Food Technology</option>
+                <option value="Aerospace and Defence">Aerospace and Defence</option>
+                <option value="Automobile">Automobile</option>
+                <option value="Retail [FMCGJ] Real Estate Entertainment & Finance">Retail [FMCGJ] Real Estate Entertainment & Finance</option>
+                <option value="Power / Energy">Power / Energy</option>
+                <option value="Other">Other</option>
+            </select><br><br>
+
+            <label for="industry_technology">Industry Technology:</label>
+            <select id="industry_technology" name="industry_technology">
+                <option value="Robotics and Automation">Robotics and Automation</option>
+                <option value="AR/VR/Metaverse Gaming and Digital Twins">AR/VR/Metaverse Gaming and Digital Twins</option>
+                <option value="Data Science/AI/ML">Data Science/AI/ML</option>
+                <option value="Internet of Things">Internet of Things</option>
+                <option value="Communication and Growth Tech">Communication and Growth Tech</option>
+                <option value="Additive Manufacturing (3D Printing)">Additive Manufacturing (3D Printing)</option>
+                <option value="Low Code Development">Low Code Development</option>
+            </select><br><br>
+
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+</html>
